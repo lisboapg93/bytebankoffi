@@ -6,11 +6,11 @@ class ContactForm extends StatefulWidget {
   const ContactForm({Key? key}) : super(key: key);
 
   @override
-  State<ContactForm> createState() => _ContactFormState();
+  _ContactFormState createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
-  final TextEditingController _nameController = TextEditingController();
+final TextEditingController _nameController = TextEditingController();
 final TextEditingController _accountNumberController =
       TextEditingController();
 
@@ -57,7 +57,7 @@ final TextEditingController _accountNumberController =
                   onPressed: () {
                     final String name = _nameController.text;
                     final int? accountNumber = int.tryParse(_accountNumberController.text);
-                    final Contact newContact = Contact(name, accountNumber);
+                    final Contact newContact = Contact(0, name, accountNumber);
                     Navigator.pop(context, newContact);
                   },
                 ),
