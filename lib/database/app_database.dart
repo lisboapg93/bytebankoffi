@@ -16,7 +16,7 @@ Future<Database> createDatabase() {
 
 Future<int> save(Contact contact) {
   return createDatabase().then((db) {
-    final Map<String, dynamic> contactMap = Map();
+    final Map<String, dynamic> contactMap = {};
     contactMap['id'] = contact.id;
     contactMap['name'] = contact.name;
     contactMap['account_number'] = contact.accountNumber;
