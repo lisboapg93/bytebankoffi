@@ -18,7 +18,7 @@ final TextEditingController _accountNumberController =
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Novo Contato'),
+        title: Text('Novo Contato'),
         backgroundColor: Colors.green[900],
       ),
       body: Padding(

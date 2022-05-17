@@ -1,27 +1,32 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:bytebankoffi/database/app_database.dart';
 import 'package:bytebankoffi/models/contact.dart';
 import 'package:bytebankoffi/screens/contact_form.dart';
 import 'package:flutter/material.dart';
 
 class ContactList extends StatelessWidget {
- ContactList({Key? key}) : super(key: key);
+  const ContactList({Key? key}) : super(key: key);
 
-  final List<Contact> constacts = [];
-
+  final List<Contact> contacts = AsyncSnapshot.data as List<Contact>;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contacts'),
+        title: Text('Contacts'),
       ),
-      body: ListView.builder(
-        itemBuilder: ((context, index) {
-        final Contact contact = contacts[index];  
-          return _ContactItem(contact);
-        }
-        itemCount: contacts.lenght,
-        ),
-      ),
+      body: FutureBuilder(
+          future: findAll(),
+          builder: (context, snapshot) {
+            final List<Contact> contacts = snapshot.data;
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                final Contact contact = contacts[index];
+                return _ContactItem(contact);
+              },
+              itemCount: contacts.length,
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -52,7 +57,9 @@ class _ContactItem extends StatelessWidget {
       child: ListTile(
         title: Text(
           contact.name,
-          style: TextStyle(fontSize: 24.0),
+          style: TextStyle(
+            fontSize: 24.0,
+          ),
         ),
         subtitle: Text(
           contact.accountNumber.toString(),
