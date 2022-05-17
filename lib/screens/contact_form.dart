@@ -58,7 +58,7 @@ final TextEditingController _accountNumberController =
                   onPressed: () {
                     final String name = _nameController.text;
                     final int? accountNumber = int.tryParse(_accountNumberController.text);
-                    final Contact newContact = Contact(0, name, accountNumber);
+                    final Contact newContact = Contact(0, name, 0);
                     Navigator.pop(context, newContact);
                   },
                 ),

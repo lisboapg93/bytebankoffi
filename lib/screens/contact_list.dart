@@ -8,7 +8,7 @@ class ContactList extends StatelessWidget {
   const ContactList({Key? key}) : super(key: key);
 
   final List<Contact> contacts = AsyncSnapshot.data as List<Contact>;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,17 +16,22 @@ class ContactList extends StatelessWidget {
         title: Text('Contacts'),
       ),
       body: FutureBuilder(
-          future: findAll(),
+          future:
+              Future.delayed(Duration(second: 1)).then((value) => findAll()),
           builder: (context, snapshot) {
-            final List<Contact> contacts = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                final Contact contact = contacts[index];
-                return _ContactItem(contact);
-              },
-              itemCount: contacts.length,
-            );
-          }),
+            if (snapshot.data != null) {
+              final List<Contact> contacts = snapshot.data;
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Contact contact = contacts[index];
+                  return _ContactItem(contact);
+                },
+                itemCount: contacts.length,
+              );
+            }
+            return null;
+          },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
