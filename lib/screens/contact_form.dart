@@ -25,7 +25,7 @@ final TextEditingController _accountNumberController =
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const TextField(
+             TextField(
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'Fullname',
@@ -37,7 +37,8 @@ final TextEditingController _accountNumberController =
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: const TextField(
+              child:  
+              TextField(
                 controller: _accountNumberController,
                 decoration: InputDecoration(
                   labelText: 'Account Number',
