@@ -4,10 +4,7 @@ import 'package:bytebankoffi/models/contact.dart';
 import 'package:bytebankoffi/screens/contact_form.dart';
 import 'package:flutter/material.dart';
 
-class ContactList extends StatelessWidget {
-  const ContactList({Key? key}) : super(key: key);
-
-  final List<Contact> contacts = AsyncSnapshot.data as List<Contact>;
+class ContactsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +12,28 @@ class ContactList extends StatelessWidget {
       appBar: AppBar(
         title: Text('Contacts'),
       ),
-      body: FutureBuilder(
-          future:
-              Future.delayed(Duration(second: 1)).then((value) => findAll()),
+      body: FutureBuilder<List<Contact>>(
+        initialData: [],
+          future: findAll(),
           builder: (context, snapshot) {
-            if (snapshot.data != null) {
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('Loading')
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
               final List<Contact> contacts = snapshot.data;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -28,8 +42,9 @@ class ContactList extends StatelessWidget {
                 },
                 itemCount: contacts.length,
               );
-            }
-            return null;
+              break;
+          }
+          return Text('Unknown error');
           },
       ),
       floatingActionButton: FloatingActionButton(
@@ -44,14 +59,15 @@ class ContactList extends StatelessWidget {
                 (newContact) => debugPrint(newContact.toString()),
               );
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+        ),
       ),
     );
   }
 }
 
 class _ContactItem extends StatelessWidget {
-  const _ContactItem({Key? key}) : super(key: key);
 
   final Contact contact;
   _ContactItem(this.contact);
